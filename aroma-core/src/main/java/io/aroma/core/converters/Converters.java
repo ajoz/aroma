@@ -50,4 +50,43 @@ public final class Converters {
             }
         };
     }
+
+    public static Converter<Short> shortConverter() {
+        return new Converter<Short>() {
+            @Override
+            public Conversion<Short> convert(@NonNull final String token) {
+                try {
+                    return new Conversion.Ok<Short>(Short.parseShort(token));
+                } catch (final Throwable throwable) {
+                    return new Conversion.Failed<Short>(throwable);
+                }
+            }
+        };
+    }
+
+    public static Converter<Float> floatConverter() {
+        return new Converter<Float>() {
+            @Override
+            public Conversion<Float> convert(@NonNull final String token) {
+                try {
+                    return new Conversion.Ok<Float>(Float.parseFloat(token));
+                } catch (final Throwable throwable) {
+                    return new Conversion.Failed<Float>(throwable);
+                }
+            }
+        };
+    }
+
+    public static Converter<Boolean> booleanConverter() {
+        return new Converter<Boolean>() {
+            @Override
+            public Conversion<Boolean> convert(@NonNull final String token) {
+                try {
+                    return new Conversion.Ok<Boolean>(Boolean.parseBoolean(token));
+                } catch (final Throwable throwable) {
+                    return new Conversion.Failed<Boolean>(throwable);
+                }
+            }
+        };
+    }
 }

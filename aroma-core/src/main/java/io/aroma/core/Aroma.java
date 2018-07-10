@@ -29,7 +29,7 @@ import static io.aroma.core.converters.Converters.stringConverter;
  *     <!-- key as attribute -->
  *     <entry key="foo">bar</entry>
  *     <!-- key and value both as attributes -->
- *     <entry key="baz" value="qux"/>
+ *     <entry key="baz" value="qux" />
  *     <!-- key and value both as tags -->
  *     <entry>
  *         <key>quux</key>
@@ -74,6 +74,36 @@ import static io.aroma.core.converters.Converters.stringConverter;
  *     <li>type - can be a HASHMAP, LINKED_HASHMAP, TREEMAP</li>
  *     <li>collection - can be a LIST, SET, ORDERED_SET</li>
  * </ul>
+ *
+ * Below is an example of an XML with map type and collection specified:
+ * <pre>
+ * {@code
+ *
+ * <map type="LINKED_HASHMAP" collection="ORDERED_SET">
+ *     <entry key="foo" value="bar" />
+ *     <entry key="baz" value="qux" />
+ *     <!-- other entries -->
+ * </map>
+ *
+ * }
+ * </pre>
+ *
+ * It's possible to specify both map type and collection type manually in code.
+ * If specified like this, types specified in XML will be overwritten.
+ * <p>
+ * Below is an example of generating a multimap that has specified map and
+ * collection type:
+ * <pre>
+ * {@code
+ *
+ *  final Map<String, Collection<String>> parsedMap =
+ *      Aroma.from(androidContext)
+ *           .withMapType(MapTypes.TREEMAP)
+ *           .withCollectionType(CollectionTypes.SET)
+ *           .parse(R.xml.my_map_in_resource);
+ *
+ * }
+ * </pre>
  *
  * @param <A> type of the parsed key
  * @param <B> type of the parsed value
