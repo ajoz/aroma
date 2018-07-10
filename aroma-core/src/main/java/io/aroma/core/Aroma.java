@@ -14,19 +14,86 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.aroma.core.converters.Converters;
 import static io.aroma.core.converters.Converters.stringConverter;
 
 /**
- * @param <A>
- * @param <B>
+ * Simple Android Resource Map parser that allows generating multimaps (multimap
+ * is a map that have multiple values for a single key) from android resources.
+ * <p>
+ * Basic supported XML format:
+ * <pre>
+ * {@code
+ *
+ * <map>
+ *     <!-- key as attribute -->
+ *     <entry key="foo">bar</entry>
+ *     <!-- key and value both as attributes -->
+ *     <entry key="baz" value="qux"/>
+ *     <!-- key and value both as tags -->
+ *     <entry>
+ *         <key>quux</key>
+ *         <value>corge</value>
+ *     </entry>
+ * </map>
+ * }
+ * </pre>
+ * To produce a the multimap from the given XML resource id:
+ * <pre>
+ * {@code
+ *
+ * final Map<String, Collections<String>> parsedMap =
+ *     Aroma.from(androidContext)
+ *          .parse(R.xml.my_map_in_resource);
+ *
+ * }
+ * </pre>
+ * <p>
+ * By default Aroma parser reads both keys and values as
+ * {@linkplain String strings}. If a specific type is needed then a special
+ * {@link Converter} can be passed for key or value (or both). There is a set
+ * of predefined converters that allow converting to base types.
+ * <p>
+ * Below is an example of generating a multimap that has keys stored as Integers
+ * and values stored as Doubles:
+ * <pre>
+ * {@code
+ *
+ *  final Map<Integer, Collection<Double>> parsedMap =
+ *      Aroma.from(androidContext)
+ *           .withKeyConverter(Converters.integerConverter())
+ *           .withValueConverter(Converters.doubleConverter())
+ *           .parse(R.xml.my_map_in_resource);
+ *
+ * }
+ * </pre>
+ *
+ * Type of the generated {@link Map} and used {@link Collection} can be specified
+ * both in XML or in code. In XML it's specified through {@code map} tag attributes:
+ * <ul>
+ *     <li>type - can be a HASHMAP, LINKED_HASHMAP, TREEMAP</li>
+ *     <li>collection - can be a LIST, SET, ORDERED_SET</li>
+ * </ul>
+ *
+ * @param <A> type of the parsed key
+ * @param <B> type of the parsed value
+ * @see Converter
+ * @see Converters
+ * @see Conversion
  */
 public final class Aroma<A, B> {
+    /**
+     * Specifies all the {@link Map} types supported by the Aroma parser.
+     */
     public enum MapTypes {
         HASHMAP,
         TREEMAP,
         LINKED_HASHMAP
     }
 
+    /**
+     * Specifies all the {@link Collection} types supported by the Aroma parser.
+     */
     public enum CollectionTypes {
         LIST,
         SET,

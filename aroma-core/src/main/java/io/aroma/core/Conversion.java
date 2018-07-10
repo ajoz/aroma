@@ -12,6 +12,10 @@ public abstract class Conversion<A> {
     }
 
     public static class Failed<A> extends Conversion<A> {
+        private final Throwable throwable;
 
+        public Failed(@NonNull final Throwable throwable) {
+            this.throwable = throwable;
+        }
     }
 }
