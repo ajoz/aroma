@@ -6,7 +6,7 @@ import io.aroma.core.Conversion;
 import io.aroma.core.Converter;
 
 /**
- *
+ * A set of general purpose {@link Converter} implementations.
  */
 public final class Converters {
     private Converters() {
@@ -14,7 +14,10 @@ public final class Converters {
     }
 
     /**
-     * @return
+     * Returns a basic converter that takes a String token and converts it
+     * to a String.
+     *
+     * @return converter from String token to String
      */
     public static Converter<String> stringConverter() {
         return new Converter<String>() {
@@ -25,6 +28,12 @@ public final class Converters {
         };
     }
 
+    /**
+     * Returns a basic converter that takes a String token and converts it to
+     * an Integer.
+     *
+     * @return converter from String token to Integer
+     */
     public static Converter<Integer> integerConverter() {
         return new Converter<Integer>() {
             @Override
@@ -38,6 +47,12 @@ public final class Converters {
         };
     }
 
+    /**
+     * Returns a basic converter that takes a String token and converts it to
+     * a Double.
+     *
+     * @return converter from String token to Double
+     */
     public static Converter<Double> doubleConverter() {
         return new Converter<Double>() {
             @Override
@@ -51,6 +66,12 @@ public final class Converters {
         };
     }
 
+    /**
+     * Returns a basic converter that takes a String token and converts it to
+     * a Short.
+     *
+     * @return converter from String token to Short
+     */
     public static Converter<Short> shortConverter() {
         return new Converter<Short>() {
             @Override
@@ -64,6 +85,12 @@ public final class Converters {
         };
     }
 
+    /**
+     * Returns a basic converter that takes a String token and converts it to
+     * a Float.
+     *
+     * @return converter from String token to Float
+     */
     public static Converter<Float> floatConverter() {
         return new Converter<Float>() {
             @Override
@@ -77,6 +104,12 @@ public final class Converters {
         };
     }
 
+    /**
+     * Returns a basic converter that takes a String token and converts it to
+     * a Boolean.
+     *
+     * @return converter from String token to Boolean
+     */
     public static Converter<Boolean> booleanConverter() {
         return new Converter<Boolean>() {
             @Override

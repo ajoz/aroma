@@ -2,7 +2,15 @@ package io.aroma.core;
 
 import android.support.annotation.NonNull;
 
+/**
+ *
+ * @param <A>
+ */
 public abstract class Conversion<A> {
+    /**
+     *
+     * @param <A>
+     */
     public static class Ok<A> extends Conversion<A> {
         private final A value;
 
@@ -11,6 +19,10 @@ public abstract class Conversion<A> {
         }
     }
 
+    /**
+     *
+     * @param <A>
+     */
     public static class Failed<A> extends Conversion<A> {
         private final Throwable throwable;
 

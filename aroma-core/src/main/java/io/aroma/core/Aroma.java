@@ -67,14 +67,14 @@ import static io.aroma.core.converters.Converters.stringConverter;
  *
  * }
  * </pre>
- *
+ * <p>
  * Type of the generated {@link Map} and used {@link Collection} can be specified
  * both in XML or in code. In XML it's specified through {@code map} tag attributes:
  * <ul>
- *     <li>type - can be a HASHMAP, LINKED_HASHMAP, TREEMAP</li>
- *     <li>collection - can be a LIST, SET, ORDERED_SET</li>
+ * <li>type - can be a HASHMAP, LINKED_HASHMAP, TREEMAP</li>
+ * <li>collection - can be a LIST, SET, ORDERED_SET</li>
  * </ul>
- *
+ * <p>
  * Below is an example of an XML with map type and collection specified:
  * <pre>
  * {@code
@@ -87,7 +87,7 @@ import static io.aroma.core.converters.Converters.stringConverter;
  *
  * }
  * </pre>
- *
+ * <p>
  * It's possible to specify both map type and collection type manually in code.
  * If specified like this, types specified in XML will be overwritten.
  * <p>
@@ -294,10 +294,11 @@ public final class Aroma<A, B> {
      * @return
      */
     public Map<A, Collection<B>> parse(@XmlRes final int resourceId) {
+
         return Collections.emptyMap();
     }
 
-    private static <A, B> Map<A, Collection<B>> getMap(@NonNull final MapTypes mapType) {
+    static <A, B> Map<A, Collection<B>> getMap(@NonNull final MapTypes mapType) {
         switch (mapType) {
             case LINKED_HASHMAP:
                 return new LinkedHashMap<A, Collection<B>>();
@@ -309,7 +310,7 @@ public final class Aroma<A, B> {
         }
     }
 
-    private static <A> Collection<A> getCollection(@NonNull final CollectionTypes collectionType) {
+    static <A> Collection<A> getCollection(@NonNull final CollectionTypes collectionType) {
         switch (collectionType) {
             case SET:
                 return new HashSet<A>();
