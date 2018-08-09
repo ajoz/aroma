@@ -1,17 +1,21 @@
 package io.aroma.core;
 
 import android.content.Context;
+
 import io.aroma.core.converters.Converters;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 import java.util.Collection;
 import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest = Config.NONE)
 public class AromaTest {
     @Test
     public void test() {
@@ -26,7 +30,7 @@ public class AromaTest {
                         .continueOnError(true)
                         .withKeyConverter(Converters.integerConverter())
                         .withValueConverter(Converters.doubleConverter())
-                        .parse(0);
+                        .parse(R.xml.reference_map);
 
         // then:
         Assert.assertTrue(parsedMap.isEmpty());

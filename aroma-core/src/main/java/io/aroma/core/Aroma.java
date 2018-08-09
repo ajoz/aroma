@@ -1,9 +1,16 @@
 package io.aroma.core;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.support.annotation.NonNull;
 import android.support.annotation.XmlRes;
+import android.util.Log;
+import io.aroma.core.converters.Converters;
+import static io.aroma.core.converters.Converters.stringConverter;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,9 +20,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
-
-import io.aroma.core.converters.Converters;
-import static io.aroma.core.converters.Converters.stringConverter;
 
 /**
  * Simple Android Resource Map parser that allows generating multimaps (multimap
@@ -294,6 +298,23 @@ public final class Aroma<A, B> {
      * @return
      */
     public Map<A, Collection<B>> parse(@XmlRes final int resourceId) {
+        final Resources resources = context.getResources();
+        final XmlResourceParser parser = resources.getXml(resourceId);
+
+        try {
+            int eventType = parser.getEventType();
+            while (eventType != XmlResourceParser.END_DOCUMENT) {
+                if (XmlResourceParser.START_TAG == eventType) {
+                    System.out.println(parser.getName());
+                }
+                eventType = parser.next();
+            }
+        } catch (final XmlPullParserException xppe) {
+
+        } catch (final IOException ioe) {
+
+        }
+
 
         return Collections.emptyMap();
     }
