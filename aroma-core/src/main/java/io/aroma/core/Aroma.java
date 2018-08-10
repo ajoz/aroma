@@ -291,6 +291,16 @@ public final class Aroma<A, B> {
         );
     }
 
+    private static String TAG_MAP = "map";
+    private static String TAG_ENTRY = "entry";
+    private static String TAG_KEY = "key";
+    private static String TAG_VALUE = "value";
+
+    private static String ATTRIBUTE_MAP_TYPE = "type";
+    private static String ATTRIBUTE_MAP_COLLECTION = "collection";
+    private static String ATTRIBUTE_ENTRY_KEY = "key";
+    private static String ATTRIBUTE_ENTRY_VALUE = "value";
+
     /**
      * Performs parsing of the given XML resource.
      *
@@ -305,8 +315,23 @@ public final class Aroma<A, B> {
             int eventType = parser.getEventType();
             while (eventType != XmlResourceParser.END_DOCUMENT) {
                 if (XmlResourceParser.START_TAG == eventType) {
-                    System.out.println(parser.getName());
+                    System.out.println("start tag: " + parser.getName());
+
+                    int attributeCount = parser.getAttributeCount();
+                    System.out.println("attribute count: " + attributeCount);
+
+                    for (int i =0; i < attributeCount; i++) {
+                        String attributeName = parser.getAttributeName(i);
+                        String attributeValue = parser.getAttributeValue(i);
+
+                        System.out.println(attributeName + "=" + attributeValue);
+                    }
+
+                } else if (XmlResourceParser.END_TAG == eventType) {
+                    System.out.println("end tag: " + parser.getName());
                 }
+
+
                 eventType = parser.next();
             }
         } catch (final XmlPullParserException xppe) {
