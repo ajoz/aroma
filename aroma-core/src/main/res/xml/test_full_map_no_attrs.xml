@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<map xmlns="https://map.core.aroma.io"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="aroma_map_res.xsd">
+
+    <entry key="foo">bar1</entry>
+    <entry key="foo">bar2</entry>
+
+    <entry key="baz" value="qux1"/>
+    <entry key="baz" value="qux2"/>
+    <entry key="baz" value="qux3"/>
+
+    <entry>
+        <key>quux</key>
+        <value>corge1</value>
+    </entry>
+    <entry>
+        <key>quux</key>
+        <value>corge2</value>
+    </entry>
+    <entry>
+        <key>quux</key>
+        <value>corge3</value>
+    </entry>
+    <entry>
+        <key>quux</key>
+        <value>corge4</value>
+    </entry>
+</map>

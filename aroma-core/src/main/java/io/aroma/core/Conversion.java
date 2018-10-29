@@ -3,31 +3,20 @@ package io.aroma.core;
 import android.support.annotation.NonNull;
 
 /**
+ * Describes all classes capable of changing a String token to some type. This
+ * conversion can be a failing operation as each Conversion returns a Result.
  *
- * @param <A>
+ * @param <A> type of the value returned by the Conversion
  */
-public abstract class Conversion<A> {
+public interface Conversion<A> {
     /**
+     * Performs a conversion from a String token to a desired type. This
+     * operation might fail, both successful result and failure will be wrapped
+     * in a {@link Result}.
      *
-     * @param <A>
+     * @param token String token parsed directly from the XML input
+     * @return {@link Result.Success} if the the conversion is successful,
+     * {@link Result.Failure} otherwise.
      */
-    public static class Ok<A> extends Conversion<A> {
-        private final A value;
-
-        public Ok(@NonNull final A value) {
-            this.value = value;
-        }
-    }
-
-    /**
-     *
-     * @param <A>
-     */
-    public static class Failed<A> extends Conversion<A> {
-        private final Throwable throwable;
-
-        public Failed(@NonNull final Throwable throwable) {
-            this.throwable = throwable;
-        }
-    }
+    Result<A> apply(@NonNull final String token);
 }

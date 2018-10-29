@@ -5,21 +5,13 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.support.annotation.NonNull;
 import android.support.annotation.XmlRes;
-import android.util.Log;
-import io.aroma.core.converters.Converters;
-import static io.aroma.core.converters.Converters.stringConverter;
+import io.aroma.core.converters.Conversions;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+
+import static io.aroma.core.converters.Conversions.stringConversion;
 
 /**
  * Simple Android Resource Map parser that allows generating multimaps (multimap
@@ -55,7 +47,7 @@ import java.util.TreeMap;
  * <p>
  * By default Aroma parser reads both keys and values as
  * {@linkplain String strings}. If a specific type is needed then a special
- * {@link Converter} can be passed for key or value (or both). There is a set
+ * {@link Conversion} can be passed for key or value (or both). There is a set
  * of predefined converters that allow converting to base types.
  * <p>
  * Below is an example of generating a multimap that has keys stored as Integers
@@ -65,8 +57,8 @@ import java.util.TreeMap;
  *
  *  final Map<Integer, Collection<Double>> parsedMap =
  *      Aroma.from(androidContext)
- *           .withKeyConverter(Converters.integerConverter())
- *           .withValueConverter(Converters.doubleConverter())
+ *           .withKeyConverter(Conversions.integerConversion())
+ *           .withValueConverter(Conversions.doubleConversion())
  *           .parse(R.xml.my_map_in_resource);
  *
  * }
@@ -111,9 +103,9 @@ import java.util.TreeMap;
  *
  * @param <A> type of the parsed key
  * @param <B> type of the parsed value
- * @see Converter
- * @see Converters
  * @see Conversion
+ * @see Conversions
+ * @see Result
  */
 public final class Aroma<A, B> {
     /**
@@ -138,9 +130,9 @@ public final class Aroma<A, B> {
     private final Context context;
 
     @NonNull
-    private final Converter<A> keyConverter;
+    private final Conversion<A> keyConverter;
     @NonNull
-    private final Converter<B> valueConverter;
+    private final Conversion<B> valueConverter;
 
     @NonNull
     private final MapTypes mapType;
@@ -150,8 +142,8 @@ public final class Aroma<A, B> {
     private final boolean continueOnError;
 
     private Aroma(@NonNull final Context context,
-                  @NonNull final Converter<A> keyConverter,
-                  @NonNull final Converter<B> valueConverter,
+                  @NonNull final Conversion<A> keyConverter,
+                  @NonNull final Conversion<B> valueConverter,
                   @NonNull final MapTypes mapType,
                   @NonNull final CollectionTypes collectionType,
                   final boolean continueOnError) {
@@ -175,8 +167,8 @@ public final class Aroma<A, B> {
     public static Aroma<String, String> from(@NonNull final Context context) {
         return new Aroma<String, String>(
                 context,
-                stringConverter(),
-                stringConverter(),
+                stringConversion(),
+                stringConversion(),
                 MapTypes.HASHMAP,
                 CollectionTypes.LIST,
                 false
@@ -192,7 +184,7 @@ public final class Aroma<A, B> {
      * @param <C>       type of the converted key
      * @return instance of the Aroma parser
      */
-    public <C> Aroma<C, B> withKeyConverter(@NonNull final Converter<C> converter) {
+    public <C> Aroma<C, B> withKeyConverter(@NonNull final Conversion<C> converter) {
         return new Aroma<C, B>(
                 context,
                 converter,
@@ -213,7 +205,7 @@ public final class Aroma<A, B> {
      * @param <C>       type of the converted value
      * @return instance of the Aroma parser
      */
-    public <C> Aroma<A, C> withValueConverter(@NonNull final Converter<C> converter) {
+    public <C> Aroma<A, C> withValueConverter(@NonNull final Conversion<C> converter) {
         return new Aroma<A, C>(
                 context,
                 keyConverter,
@@ -297,6 +289,10 @@ public final class Aroma<A, B> {
     private static String TAG_VALUE = "value";
 
     private static String ATTRIBUTE_MAP_TYPE = "type";
+    private static String ATTRIBUTE_MAP_TYPE_HASHMAP = "HASHMAP";
+    private static String ATTRIBUTE_MAP_TYPE_LINKED_HASHMAP = "LINKED_HASHMAP";
+    private static String ATTRIBUTE_MAP_TYPE_TREEMAP = "TREEMAP";
+
     private static String ATTRIBUTE_MAP_COLLECTION = "collection";
     private static String ATTRIBUTE_ENTRY_KEY = "key";
     private static String ATTRIBUTE_ENTRY_VALUE = "value";
@@ -314,23 +310,22 @@ public final class Aroma<A, B> {
         try {
             int eventType = parser.getEventType();
             while (eventType != XmlResourceParser.END_DOCUMENT) {
-                if (XmlResourceParser.START_TAG == eventType) {
-                    System.out.println("start tag: " + parser.getName());
-
-                    int attributeCount = parser.getAttributeCount();
-                    System.out.println("attribute count: " + attributeCount);
-
-                    for (int i =0; i < attributeCount; i++) {
+                // parse map tag
+                if (XmlResourceParser.START_TAG == eventType && TAG_MAP.equalsIgnoreCase(parser.getName())) {
+                    final int attributeCount = parser.getAttributeCount();
+                    for (int i = 0; i < attributeCount; i++) {
                         String attributeName = parser.getAttributeName(i);
                         String attributeValue = parser.getAttributeValue(i);
 
-                        System.out.println(attributeName + "=" + attributeValue);
+                        if (ATTRIBUTE_MAP_TYPE.equalsIgnoreCase(attributeName)) {
+
+                        } else if (ATTRIBUTE_MAP_COLLECTION.equalsIgnoreCase(attributeName)) {
+
+                        } else {
+                            // unknown attribute name
+                        }
                     }
-
-                } else if (XmlResourceParser.END_TAG == eventType) {
-                    System.out.println("end tag: " + parser.getName());
                 }
-
 
                 eventType = parser.next();
             }
@@ -340,9 +335,10 @@ public final class Aroma<A, B> {
 
         }
 
-
+        // on error recover with an empty map
         return Collections.emptyMap();
     }
+
 
     static <A, B> Map<A, Collection<B>> getMap(@NonNull final MapTypes mapType) {
         switch (mapType) {

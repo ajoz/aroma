@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-
 <!--
 
   This file shows a reference Android ResOurce MAp xml.
@@ -9,7 +8,10 @@
   for the definition to be valid.
 
 -->
-<map type="LINKED_HASHMAP" collection="ORDERED_SET">
+<map xmlns="https://map.core.aroma.io"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="aroma_map_res.xsd"
+     type="LINKED_HASHMAP" collection="ORDERED_SET">
     <!--
     Map types: HASHMAP, TREEMAP or LINKED_HASHMAP
     Map collections: LIST, SET, ORDERED_SET
@@ -27,7 +29,7 @@
     An entry with both key and value as attributes
 
     -->
-    <entry key="baz" value="qux" />
+    <entry key="baz" value="qux"/>
 
     <!--
 

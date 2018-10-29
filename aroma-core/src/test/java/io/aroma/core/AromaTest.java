@@ -2,7 +2,7 @@ package io.aroma.core;
 
 import android.content.Context;
 
-import io.aroma.core.converters.Converters;
+import io.aroma.core.converters.Conversions;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,8 +28,8 @@ public class AromaTest {
                         .withCollectionType(Aroma.CollectionTypes.ORDERED_SET)
                         .withMapType(Aroma.MapTypes.TREEMAP)
                         .continueOnError(true)
-                        .withKeyConverter(Converters.integerConverter())
-                        .withValueConverter(Converters.doubleConverter())
+                        .withKeyConverter(Conversions.integerConversion())
+                        .withValueConverter(Conversions.doubleConversion())
                         .parse(R.xml.reference_map);
 
         // then:
