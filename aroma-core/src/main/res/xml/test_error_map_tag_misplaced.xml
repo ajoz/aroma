@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
+<!--
+  Test:
+  - map tag exists
+  - map tag is not the top most tag
+-->
 <foo>
     <map type="LINKED_HASHMAP" collection="ORDERED_SET">
 

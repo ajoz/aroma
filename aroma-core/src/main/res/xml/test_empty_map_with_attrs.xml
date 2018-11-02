@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-
-<map xmlns="https://map.core.aroma.io"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:noNamespaceSchemaLocation="aroma_map_res.xsd"
-     type="TREEMAP" collection="SET">
-
-</map>
