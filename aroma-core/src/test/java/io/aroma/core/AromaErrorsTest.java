@@ -20,6 +20,8 @@ import java.util.Map;
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
 public class AromaErrorsTest {
+    //TODO: Should we handle null arguments?
+    
     @Test
     public void map_tag_is_missing() {
         //TODO: Should this case be recoverable with continueOnError?
@@ -28,12 +30,12 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context).parse(R.xml.test_error_map_tag_missing);
 
         // then:
-        assertTrue(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof HashMap);
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof HashMap);
     }
 
     @Test
@@ -44,12 +46,12 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context).parse(R.xml.test_error_map_tag_not_root_tag);
 
         // then:
-        assertTrue(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof HashMap);
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof HashMap);
     }
 
     @Test
@@ -58,13 +60,13 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context)
                         .parse(R.xml.test_error_map_tag_unknown_attrs);
 
         // then:
-        assertTrue(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
     }
 
     @Test
@@ -73,18 +75,18 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context)
                         .continueOnError(true)
                         .parse(R.xml.test_error_map_tag_unknown_attrs);
 
         // then:
-        assertFalse(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
-        assertTrue(parsedMap.values() instanceof LinkedHashSet);
-        assertEquals(1, parsedMap.size());
-        assertEquals(2, parsedMap.get("map_tag_with").size());
-        assertEquals(asList("unknown", "attributes"), parsedMap.get("map_tag_with"));
+        assertFalse(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
+        assertTrue(tested.values() instanceof LinkedHashSet);
+        assertEquals(1, tested.size());
+        assertEquals(2, tested.get("map_tag_with").size());
+        assertEquals(asList("unknown", "attributes"), tested.get("map_tag_with"));
     }
 
     @Test
@@ -93,13 +95,13 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context)
                         .parse(R.xml.test_error_map_tag_unknown_child_tags);
 
         // then:
-        assertTrue(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
     }
 
     @Test
@@ -108,18 +110,18 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context)
                         .continueOnError(true)
                         .parse(R.xml.test_error_map_tag_unknown_child_tags);
 
         // then:
-        assertFalse(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
-        assertTrue(parsedMap.values() instanceof LinkedHashSet);
-        assertEquals(1, parsedMap.size());
-        assertEquals(2, parsedMap.get("map_with").size());
-        assertEquals(asList("unknown", "tags"), parsedMap.get("map_with"));
+        assertFalse(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
+        assertTrue(tested.values() instanceof LinkedHashSet);
+        assertEquals(1, tested.size());
+        assertEquals(2, tested.get("map_with").size());
+        assertEquals(asList("unknown", "tags"), tested.get("map_with"));
     }
 
     @Test
@@ -128,13 +130,13 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context)
                         .parse(R.xml.test_error_map_tag_unknown_entry_tag_attrs);
 
         // then:
-        assertTrue(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
     }
 
     @Test
@@ -143,18 +145,18 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<String>> parsedMap =
+        final Map<String, Collection<String>> tested =
                 Aroma.from(context)
                         .continueOnError(true)
                         .parse(R.xml.test_error_map_tag_unknown_entry_tag_attrs);
 
         // then:
-        assertFalse(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
-        assertTrue(parsedMap.values() instanceof LinkedHashSet);
-        assertEquals(1, parsedMap.size());
-        assertEquals(2, parsedMap.get("entry_with").size());
-        assertEquals(asList("unknown", "attributes"), parsedMap.get("entry_with"));
+        assertFalse(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
+        assertTrue(tested.values() instanceof LinkedHashSet);
+        assertEquals(1, tested.size());
+        assertEquals(2, tested.get("entry_with").size());
+        assertEquals(asList("unknown", "attributes"), tested.get("entry_with"));
     }
 
     @Test
@@ -163,14 +165,14 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<Boolean, Collection<String>> parsedMap =
+        final Map<Boolean, Collection<String>> tested =
                 Aroma.from(context)
                         .withKeyConversion(Conversions.booleanConversion())
                         .parse(R.xml.test_error_conversion_key_type);
 
         // then:
-        assertTrue(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
     }
 
     @Test
@@ -179,19 +181,19 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<Boolean, Collection<String>> parsedMap =
+        final Map<Boolean, Collection<String>> tested =
                 Aroma.from(context)
                         .continueOnError(true)
                         .withKeyConversion(Conversions.booleanConversion())
                         .parse(R.xml.test_error_conversion_key_type);
 
         // then:
-        assertFalse(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
-        assertTrue(parsedMap.values() instanceof LinkedHashSet);
-        assertEquals(1, parsedMap.size());
-        assertEquals(2, parsedMap.get(Boolean.FALSE).size());
-        assertEquals(asList("key", "converted", "correctly"), parsedMap.get(Boolean.FALSE));
+        assertFalse(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
+        assertTrue(tested.values() instanceof LinkedHashSet);
+        assertEquals(1, tested.size());
+        assertEquals(2, tested.get(Boolean.FALSE).size());
+        assertEquals(asList("key", "converted", "correctly"), tested.get(Boolean.FALSE));
     }
 
     @Test
@@ -200,14 +202,14 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<Boolean>> parsedMap =
+        final Map<String, Collection<Boolean>> tested =
                 Aroma.from(context)
                         .withValueConversion(Conversions.booleanConversion())
                         .parse(R.xml.test_error_conversion_value_type);
 
         // then:
-        assertTrue(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
     }
 
     @Test
@@ -216,18 +218,18 @@ public class AromaErrorsTest {
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
         // when:
-        final Map<String, Collection<Boolean>> parsedMap =
+        final Map<String, Collection<Boolean>> tested =
                 Aroma.from(context)
                         .continueOnError(true)
                         .withValueConversion(Conversions.booleanConversion())
                         .parse(R.xml.test_error_conversion_value_type);
 
         // then:
-        assertFalse(parsedMap.isEmpty());
-        assertTrue(parsedMap instanceof LinkedHashMap);
-        assertTrue(parsedMap.values() instanceof LinkedHashSet);
-        assertEquals(1, parsedMap.size());
-        assertEquals(2, parsedMap.get("value_conversion").size());
-        assertEquals(asList(true, false), parsedMap.get("value_conversion"));
+        assertFalse(tested.isEmpty());
+        assertTrue(tested instanceof LinkedHashMap);
+        assertTrue(tested.values() instanceof LinkedHashSet);
+        assertEquals(1, tested.size());
+        assertEquals(2, tested.get("value_conversion").size());
+        assertEquals(asList(true, false), tested.get("value_conversion"));
     }
 }
