@@ -2,8 +2,6 @@ package io.aroma.core;
 
 import android.content.Context;
 
-import io.aroma.core.converters.Conversions;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +14,7 @@ import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
-public class AromaTest {
+public class AromaNonErrorsTest {
     /*
     Tests:
     -- Non errors:
@@ -32,14 +30,8 @@ public class AromaTest {
     X ---- map tag exists, both attrs set, there are zero entries
     X ---- map tag exists, both attrs set, there is one entry
     X ---- map tag exists, both attrs set, there are multiple entries
-    -- Errors:
-    X ---- missing map tag -> Empty map, default type
-    X ---- misplaced map tag
-    X ---- unknown map tag attributes
-    X ---- unknown child tags
-    ---- unknown entry tag attributes
-    ---- converter error, key conversion error
-    X ---- converter error, value conversion error
+    -- Questions:
+    -- should we test if args are not null?
     */
 
     @Test
@@ -53,8 +45,8 @@ public class AromaTest {
                         .withCollectionType(Aroma.CollectionTypes.ORDERED_SET)
                         .withMapType(Aroma.MapTypes.TREEMAP)
                         .continueOnError(true)
-                        .withKeyConverter(Conversions.integerConversion())
-                        .withValueConverter(Conversions.doubleConversion())
+                        .withKeyConversion(Conversions.integerConversion())
+                        .withValueConversion(Conversions.doubleConversion())
                         .parse(R.xml.reference_map);
 
         // then:

@@ -3,34 +3,15 @@
 <!--
   Test:
   - map tag exists
+  - map tag has known attributes
   - map tag has unknown attributes
 -->
-<map type="LINKED_HASHMAP"
-     collection="ORDERED_SET"
-     unknown="attribute"
-     not="known">
+<map
+    type="LINKED_HASHMAP"
+    collection="ORDERED_SET"
+    unknown="attribute"
+    not="known">
 
-    <entry key="foo">bar1</entry>
-    <entry key="foo">bar2</entry>
-
-    <entry key="baz" value="qux1"/>
-    <entry key="baz" value="qux2"/>
-    <entry key="baz" value="qux3"/>
-
-    <entry>
-        <key>quux</key>
-        <value>corge1</value>
-    </entry>
-    <entry>
-        <key>quux</key>
-        <value>corge2</value>
-    </entry>
-    <entry>
-        <key>quux</key>
-        <value>corge3</value>
-    </entry>
-    <entry>
-        <key>quux</key>
-        <value>corge4</value>
-    </entry>
+    <entry key="map_tag_with">unknown</entry>
+    <entry key="map_tag_with">attributes</entry>
 </map>

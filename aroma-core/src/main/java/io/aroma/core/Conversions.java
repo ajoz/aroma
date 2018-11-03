@@ -1,4 +1,4 @@
-package io.aroma.core.converters;
+package io.aroma.core;
 
 import android.support.annotation.NonNull;
 

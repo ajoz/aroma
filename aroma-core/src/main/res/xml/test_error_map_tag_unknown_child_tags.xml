@@ -11,6 +11,6 @@
     <uknown>child</uknown>
     <not>known</not>
 
-    <entry key="foo">bar1</entry>
-    <entry key="foo">bar2</entry>
+    <entry key="map_with">unknown</entry>
+    <entry key="map_with">tags</entry>
 </map>

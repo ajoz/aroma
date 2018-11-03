@@ -5,13 +5,12 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.support.annotation.NonNull;
 import android.support.annotation.XmlRes;
-import io.aroma.core.converters.Conversions;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.*;
 
-import static io.aroma.core.converters.Conversions.stringConversion;
+import static io.aroma.core.Conversions.stringConversion;
 
 /**
  * Simple Android Resource Map parser that allows generating multimaps (multimap
@@ -57,8 +56,8 @@ import static io.aroma.core.converters.Conversions.stringConversion;
  *
  *  final Map<Integer, Collection<Double>> parsedMap =
  *      Aroma.from(androidContext)
- *           .withKeyConverter(Conversions.integerConversion())
- *           .withValueConverter(Conversions.doubleConversion())
+ *           .withKeyConversion(Conversions.integerConversion())
+ *           .withValueConversion(Conversions.doubleConversion())
  *           .parse(R.xml.my_map_in_resource);
  *
  * }
@@ -176,18 +175,18 @@ public final class Aroma<A, B> {
     }
 
     /**
-     * Creates an instance of Aroma parser that has a custom key converter set.
+     * Creates an instance of Aroma parser that has a custom key conversion set.
      * By default map keys are {@linkplain String strings}, if keys should be
-     * a specific or custom type a converter needs to be set.
+     * a specific or custom type a conversion needs to be set.
      *
-     * @param converter converter used for key conversion
-     * @param <C>       type of the converted key
+     * @param conversion conversion used for key conversion
+     * @param <C>        type of the converted key
      * @return instance of the Aroma parser
      */
-    public <C> Aroma<C, B> withKeyConverter(@NonNull final Conversion<C> converter) {
+    public <C> Aroma<C, B> withKeyConversion(@NonNull final Conversion<C> conversion) {
         return new Aroma<C, B>(
                 context,
-                converter,
+                conversion,
                 valueConverter,
                 mapType,
                 collectionType,
@@ -196,20 +195,20 @@ public final class Aroma<A, B> {
     }
 
     /**
-     * Creates an instance of Aroma parser that has a custom value converter set.
+     * Creates an instance of Aroma parser that has a custom value conversion set.
      * By default map values (stored in the collection) are
      * {@linkplain String strings}, if values should be a specific or custom type
-     * a converter needs to be set.
+     * a conversion needs to be set.
      *
-     * @param converter converter used for value conversion
-     * @param <C>       type of the converted value
+     * @param conversion conversion used for value conversion
+     * @param <C>        type of the converted value
      * @return instance of the Aroma parser
      */
-    public <C> Aroma<A, C> withValueConverter(@NonNull final Conversion<C> converter) {
+    public <C> Aroma<A, C> withValueConversion(@NonNull final Conversion<C> conversion) {
         return new Aroma<A, C>(
                 context,
                 keyConverter,
-                converter,
+                conversion,
                 mapType,
                 collectionType,
                 continueOnError
