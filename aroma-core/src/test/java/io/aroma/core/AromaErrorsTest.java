@@ -12,16 +12,18 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
 public class AromaErrorsTest {
     //TODO: Should we handle null arguments?
-    
+
     @Test
     public void map_tag_is_missing() {
         //TODO: Should this case be recoverable with continueOnError?
@@ -172,7 +174,7 @@ public class AromaErrorsTest {
 
         // then:
         assertTrue(tested.isEmpty());
-        assertTrue(tested instanceof LinkedHashMap);
+        assertTrue(tested instanceof HashMap);
     }
 
     @Test
@@ -189,8 +191,8 @@ public class AromaErrorsTest {
 
         // then:
         assertFalse(tested.isEmpty());
-        assertTrue(tested instanceof LinkedHashMap);
-        assertTrue(tested.values() instanceof LinkedHashSet);
+        assertTrue(tested instanceof HashMap);
+        assertTrue(tested.values() instanceof LinkedList);
         assertEquals(1, tested.size());
         assertEquals(2, tested.get(Boolean.FALSE).size());
         assertEquals(asList("key", "converted", "correctly"), tested.get(Boolean.FALSE));
@@ -209,7 +211,7 @@ public class AromaErrorsTest {
 
         // then:
         assertTrue(tested.isEmpty());
-        assertTrue(tested instanceof LinkedHashMap);
+        assertTrue(tested instanceof HashMap);
     }
 
     @Test
@@ -226,10 +228,49 @@ public class AromaErrorsTest {
 
         // then:
         assertFalse(tested.isEmpty());
-        assertTrue(tested instanceof LinkedHashMap);
-        assertTrue(tested.values() instanceof LinkedHashSet);
+        assertTrue(tested instanceof HashMap);
+        assertTrue(tested.values() instanceof LinkedList);
         assertEquals(1, tested.size());
         assertEquals(2, tested.get("value_conversion").size());
         assertEquals(asList(true, false), tested.get("value_conversion"));
+    }
+
+    @Test
+    public void value_and_key_conversion_error() {
+        // given:
+        final Context context = RuntimeEnvironment.application.getApplicationContext();
+
+        // when:
+        final Map<Integer, Collection<Integer>> tested =
+                Aroma.from(context)
+                        .withKeyConversion(Conversions.integerConversion())
+                        .withValueConversion(Conversions.integerConversion())
+                        .parse(R.xml.test_error_conversion_key_value_type);
+
+        // then:
+        assertTrue(tested.isEmpty());
+        assertTrue(tested instanceof HashMap);
+    }
+
+    @Test
+    public void value_and_key_conversion_error_continue_on_error() {
+        // given:
+        final Context context = RuntimeEnvironment.application.getApplicationContext();
+
+        // when:
+        final Map<Integer, Collection<Integer>> tested =
+                Aroma.from(context)
+                        .continueOnError(true)
+                        .withKeyConversion(Conversions.integerConversion())
+                        .withValueConversion(Conversions.integerConversion())
+                        .parse(R.xml.test_error_conversion_key_value_type);
+
+        // then:
+        assertFalse(tested.isEmpty());
+        assertTrue(tested instanceof HashMap);
+        assertTrue(tested.values() instanceof LinkedList);
+        assertEquals(1, tested.size());
+        assertEquals(1, tested.get(1).size());
+        assertEquals(Collections.singletonList(42), tested.get(1));
     }
 }
