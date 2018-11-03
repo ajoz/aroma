@@ -2,9 +2,6 @@ package io.aroma.core;
 
 import android.support.annotation.NonNull;
 
-import io.aroma.core.Conversion;
-import io.aroma.core.Result;
-
 /**
  * A set of general purpose {@link Conversion} implementations.
  */
@@ -114,11 +111,13 @@ public final class Conversions {
         return new Conversion<Boolean>() {
             @Override
             public Result<Boolean> apply(@NonNull final String token) {
-                try {
-                    return new Result.Success<Boolean>(Boolean.parseBoolean(token));
-                } catch (final Throwable throwable) {
-                    return new Result.Failure<Boolean>(throwable);
-                }
+                if (token.equalsIgnoreCase("true"))
+                    return new Result.Success<Boolean>(Boolean.TRUE);
+
+                if (token.equalsIgnoreCase("false"))
+                    return new Result.Success<Boolean>(Boolean.FALSE);
+
+                return new Result.Failure<Boolean>(new IllegalArgumentException("Cannot parse to boolean!"));
             }
         };
     }
