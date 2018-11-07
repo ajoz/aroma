@@ -16,8 +16,6 @@ import java.util.Map;
 @Config(manifest = Config.NONE)
 public class AromaNonErrorsTest {
     /*
-    Tests:
-    -- Non errors:
     X ---- map tag exists, there are zero entries -> Empty map, default type
     X ---- map tag exists, there is one entry -> Singleton map, default type, default collection
     X ---- map tag exists, there are multiple entries -> Full map, default type, default collection
@@ -30,8 +28,6 @@ public class AromaNonErrorsTest {
     X ---- map tag exists, both attrs set, there are zero entries
     X ---- map tag exists, both attrs set, there is one entry
     X ---- map tag exists, both attrs set, there are multiple entries
-    -- Questions:
-    -- should we test if args are not null?
     */
 
     @Test
