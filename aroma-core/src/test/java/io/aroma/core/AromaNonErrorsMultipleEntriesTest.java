@@ -1,7 +1,6 @@
 package io.aroma.core;
 
 import android.content.Context;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,19 +13,12 @@ import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
-public class AromaNonErrorsTest {
+public class AromaNonErrorsMultipleEntriesTest {
+
     /*
-    X ---- map tag exists, there are zero entries -> Empty map, default type
-    X ---- map tag exists, there is one entry -> Singleton map, default type, default collection
     X ---- map tag exists, there are multiple entries -> Full map, default type, default collection
-    X ---- map tag exists, type is set, there are zero entries ->
-    X ---- map tag exists, type is set, there is one entry
-    X ---- map tag exists, type is set, there are multiple entries
-    X ---- map tag exists, collection is set, there are zero entries
-    X ---- map tag exists, collection is set, there is one entry
     X ---- map tag exists, collection is set, there are multiple entries
-    X ---- map tag exists, both attrs set, there are zero entries
-    X ---- map tag exists, both attrs set, there is one entry
+    X ---- map tag exists, type is set, there are multiple entries
     X ---- map tag exists, both attrs set, there are multiple entries
     */
 
