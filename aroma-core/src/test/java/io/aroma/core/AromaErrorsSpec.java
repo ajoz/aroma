@@ -22,7 +22,7 @@ import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
-public class AromaErrorsTest {
+public class AromaErrorsSpec {
     //TODO: Should we handle null arguments?
 
     @Test

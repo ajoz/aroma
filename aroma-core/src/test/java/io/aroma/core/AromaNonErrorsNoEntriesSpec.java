@@ -16,9 +16,9 @@ import java.util.Map;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = Config.NONE)
-public class AromaNonErrorsNoEntriesTest {
+public class AromaNonErrorsNoEntriesSpec {
     @Test
-    public void no_type_or_collection_should_return_empty_map() {
+    public void no_type_or_collection() {
         // given:
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
@@ -33,7 +33,7 @@ public class AromaNonErrorsNoEntriesTest {
     }
 
     @Test
-    public void no_type_collection_is_set_should_return_empty_map() {
+    public void no_type_but_collection_is_set() {
         // given:
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
@@ -48,7 +48,7 @@ public class AromaNonErrorsNoEntriesTest {
     }
 
     @Test
-    public void type_is_set_no_collection_should_return_empty_map() {
+    public void type_is_set_but_no_collection() {
         // given:
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
@@ -63,7 +63,7 @@ public class AromaNonErrorsNoEntriesTest {
     }
 
     @Test
-    public void type_is_set_collection_is_set_should_return_empty_map() {
+    public void type_is_set_and_collection_is_set() {
         // given:
         final Context context = RuntimeEnvironment.application.getApplicationContext();
 
